@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+
+/* === Estilos Globales Espectaculares (Light Mode) === */
+:root {
+    color-scheme: light;
+}
+
+body {
+    @apply bg-slate-50 text-slate-900 overflow-x-hidden;
+    /* Fondo base limpio */
+    background-image:
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.05), transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.05), transparent 20%);
+}
+
+/* Scrollbar Personalizado (Light) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 5px;
+    border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* === Utility Classes === */
+.text-gradient {
+    @apply bg-clip-text text-transparent bg-linear-to-r from-indigo-600 to-purple-600;
+}
+
+/* === Animaciones === */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-float {
+    animation: float 5s ease-in-out infinite;
+}
+
+/* === Componentes === */
+.card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+}
+
+/* Carousel Scroll Hide */
+.hide-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.hide-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
