@@ -1,5 +1,4 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.svg';
 
 const Layout = () => {
     const location = useLocation();
@@ -15,7 +14,6 @@ const Layout = () => {
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
                     {/* Logo del sitio */}
                     <Link to="/" className="text-2xl font-black tracking-tight flex items-center gap-2 group">
-                        <img src={logo} alt="Logo" className="w-10 h-10 shadow-indigo-200 shadow-lg group-hover:scale-110 transition-transform rounded-lg" />
                         <span className="text-slate-800 group-hover:text-indigo-600 transition-colors">GameHorizon</span>
                     </Link>
 
