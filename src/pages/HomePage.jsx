@@ -170,7 +170,7 @@ export default function HomePage() {
               <div className="grid grid-cols-2 gap-3">
                 {[1, 2, 3, 4].map(i => (
                   <div key={i} className="aspect-video bg-slate-100 rounded-xl relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent"></div>
                   </div>
                 ))}
               </div>
