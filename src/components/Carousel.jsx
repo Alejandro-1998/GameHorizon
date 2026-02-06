@@ -34,7 +34,7 @@ export default function Carousel() {
 
     if (loading) {
         return (
-            <div className="w-full h-[500px] rounded-3xl bg-slate-200 animate-pulse shadow-xl relative overflow-hidden">
+            <div className="w-full h-125 rounded-3xl bg-slate-200 animate-pulse shadow-xl relative overflow-hidden">
                 <div className="absolute inset-0 bg-linear-to-r from-slate-200 via-slate-100 to-slate-200 animate-shimmer"></div>
             </div>
         );
@@ -43,7 +43,7 @@ export default function Carousel() {
     if (games.length === 0) return null;
 
     return (
-        <div className="relative w-full h-[500px] overflow-hidden rounded-3xl shadow-2xl group border border-slate-100">
+        <div className="relative w-full h-125 overflow-hidden rounded-3xl shadow-2xl group border border-slate-100">
             {/* Slides */}
             <div
                 className="flex transition-transform duration-700 ease-in-out h-full"
