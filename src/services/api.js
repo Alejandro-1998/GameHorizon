@@ -157,14 +157,14 @@ export const getTags = async (search = '') => {
     }
 };
 
-export const getPublishers = async (search = '') => {
+export const getPublishers = async (search = '', page = 1, pageSize = 24) => {
     try {
         const query = search ? `&search=${search}` : '';
-        const response = await fetch(`${BASE_URL}/publishers?key=${API_KEY}&page_size=20${query}`);
+        const response = await fetch(`${BASE_URL}/publishers?key=${API_KEY}&page=${page}&page_size=${pageSize}${query}`);
         const data = await response.json();
-        return data.results;
+        return data; // Return full data for pagination { count, results, ... }
     } catch (error) {
-        return [];
+        return { results: [], count: 0 };
     }
 };
 

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useFavorites } from "../context/FavoritesContext";
 
 export default function GameCard({ game }) {

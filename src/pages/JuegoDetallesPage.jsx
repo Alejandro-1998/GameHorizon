@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router";
 import { getGameDetails, getGameScreenshots } from "../services/api";
 import { useFavorites } from "../context/FavoritesContext";
 

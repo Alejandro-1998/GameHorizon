@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import Carousel from "../components/Carousel";
 
 import { getPopularGames } from "../services/api";

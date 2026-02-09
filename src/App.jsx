@@ -3,7 +3,9 @@ import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import CatalogoPage from './pages/CatalogoPage';
 import JuegoDetallesPage from './pages/JuegoDetallesPage';
+
 import PublisherPage from './pages/PublisherPage';
+import PublisherCatalogPage from './pages/PublisherCatalogPage';
 import { FavoritesProvider } from './context/FavoritesContext';
 
 import FavoritesPage from './pages/FavoritesPage';
@@ -24,6 +26,8 @@ function App() {
             <Route path="game/:id" element={<JuegoDetallesPage />} />
             {/* Ruta Detalles Publisher */}
             <Route path="publishers/:id" element={<PublisherPage />} />
+            {/* Ruta Catálogo Publishers */}
+            <Route path="publishers" element={<PublisherCatalogPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router';
 
 const Layout = () => {
     const location = useLocation();
@@ -24,6 +24,12 @@ const Layout = () => {
                             className={`px-5 py-2 rounded-full font-bold text-sm transition-all duration-300 ${isActive('/')}`}
                         >
                             Inicio
+                        </Link>
+                        <Link
+                            to="/publishers"
+                            className={`px-5 py-2 rounded-full font-bold text-sm transition-all duration-300 ${isActive('/publishers')}`}
+                        >
+                            Publishers
                         </Link>
                         <Link
                             to="/favoritos"

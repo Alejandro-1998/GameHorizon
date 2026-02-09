@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router";
 import { getPublisherDetails, getGames } from "../services/api";
 import GameCard from "../components/GameCard";
 import { useFavorites } from "../context/FavoritesContext";

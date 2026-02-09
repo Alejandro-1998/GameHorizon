@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 import { getGames, getGenres, getPlatforms, getTags, getPublishers } from "../services/api";
 
 import GameCard from "../components/GameCard";
