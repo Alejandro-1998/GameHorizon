@@ -21,6 +21,8 @@ export default function CatalogoPage() {
         search: searchParams.get("search") || "",
         genre: searchParams.get("genre") || "",
         platform: searchParams.get("platform") || "",
+        tags: searchParams.get("tags") || "",
+        publishers: searchParams.get("publishers") || "",
         year: "",
         ordering: "-added",
         favoritesOnly: false
@@ -43,6 +45,8 @@ export default function CatalogoPage() {
         if (filters.search) params.search = filters.search;
         if (filters.genre) params.genre = filters.genre;
         if (filters.platform) params.platform = filters.platform;
+        if (filters.tags) params.tags = filters.tags;
+        if (filters.publishers) params.publishers = filters.publishers;
         setSearchParams(params);
     }, [page, filters]);
 
@@ -71,6 +75,8 @@ export default function CatalogoPage() {
                 search: filters.search,
                 genre: filters.genre,
                 platform: filters.platform,
+                tags: filters.tags,
+                publishers: filters.publishers,
                 dates: datesParam,
                 ordering: filters.ordering,
                 ids: idsParam
@@ -122,7 +128,7 @@ export default function CatalogoPage() {
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-xl font-bold text-slate-800">Filtros</h3>
                             <button
-                                onClick={() => setFilters({ search: "", genre: "", platform: "", year: "", ordering: "-added", favoritesOnly: false })}
+                                onClick={() => setFilters({ search: "", genre: "", platform: "", tags: "", publishers: "", year: "", ordering: "-added", favoritesOnly: false })}
                                 className="text-xs text-indigo-600 font-bold hover:underline"
                             >
                                 Limpiar

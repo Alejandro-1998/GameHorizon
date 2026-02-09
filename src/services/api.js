@@ -76,10 +76,28 @@ export const getGameDetails = async (id) => {
 };
 
 /**
+ * Obtiene los detalles de un publisher específico.
+ * @param {string|number} id
+ */
+export const getPublisherDetails = async (id) => {
+    try {
+        const response = await fetch(`${BASE_URL}/publishers/${id}?key=${API_KEY}`);
+        if (!response.ok) {
+            throw new Error('Error al obtener los detalles del publisher');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+/**
  * Obtiene lista de juegos con filtros avanzados.
  * @param {object} params
  */
-export const getGames = async ({ page = 1, pageSize = 24, search = '', genre = '', platform = '', ordering = '-added', dates = '', ids = '' }) => {
+export const getGames = async ({ page = 1, pageSize = 24, search = '', genre = '', platform = '', ordering = '-added', dates = '', ids = '', tags = '', publishers = '' }) => {
     try {
         const queryParams = new URLSearchParams({
             key: API_KEY,
@@ -93,6 +111,8 @@ export const getGames = async ({ page = 1, pageSize = 24, search = '', genre = '
         if (platform) queryParams.append('parent_platforms', platform); // parent_platforms para filtrar por Padres (PC, PlayStation, etc)
         if (dates) queryParams.append('dates', dates);
         if (ids) queryParams.append('ids', ids);
+        if (tags) queryParams.append('tags', tags);
+        if (publishers) queryParams.append('publishers', publishers);
 
         const response = await fetch(`${BASE_URL}/games?${queryParams.toString()}`);
         if (!response.ok) {

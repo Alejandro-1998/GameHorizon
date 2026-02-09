@@ -206,6 +206,36 @@ export default function JuegoDetallesPage() {
                                 </div>
 
                                 <div>
+                                    <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Tags</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {game.tags?.slice(0, 10).map(t => (
+                                            <Link
+                                                key={t.id}
+                                                to={`/catalogo?tags=${t.slug}`}
+                                                className="bg-slate-50 text-slate-600 px-3 py-1 rounded-lg text-xs font-medium border border-slate-100 hover:bg-slate-100 transition-all"
+                                            >
+                                                #{t.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Publishers</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {game.publishers?.map(p => (
+                                            <Link
+                                                key={p.id}
+                                                to={`/publishers/${p.id}`}
+                                                className="bg-orange-50 text-orange-700 px-3 py-1 rounded-lg text-sm font-medium border border-orange-100 hover:bg-orange-100 hover:shadow-sm transition-all"
+                                            >
+                                                {p.name}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div>
                                     <h4 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-2">Desarrollador</h4>
                                     <p className="text-slate-700 font-medium">
                                         {game.developers?.map(d => d.name).join(', ')}
