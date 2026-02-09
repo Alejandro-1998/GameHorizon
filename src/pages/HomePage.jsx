@@ -179,7 +179,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Botón Catálogo Bottom */}
+      {/* Botón Catálogo */}
       <section className="container mx-auto px-4 pb-20 pt-10 text-center">
         <div className="bg-slate-900 rounded-[3rem] p-12 md:p-20 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>

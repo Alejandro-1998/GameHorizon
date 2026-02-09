@@ -7,12 +7,10 @@ export default function AsyncSelect({ label, loadOptions, value, onChange, place
     const [isOpen, setIsOpen] = useState(false);
     const wrapperRef = useRef(null);
 
-    // Initial load
     useEffect(() => {
         fetchOptions("");
     }, []);
 
-    // Close on click outside
     useEffect(() => {
         function handleClickOutside(event) {
             if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
@@ -38,7 +36,6 @@ export default function AsyncSelect({ label, loadOptions, value, onChange, place
     const handleInputChange = (e) => {
         const val = e.target.value;
         setQuery(val);
-        // Debounce simple
         const timeoutId = setTimeout(() => {
             fetchOptions(val);
         }, 500);
@@ -66,7 +63,7 @@ export default function AsyncSelect({ label, loadOptions, value, onChange, place
         <div className="relative" ref={wrapperRef}>
             <label className="block text-xs font-bold text-slate-400 uppercase mb-2">{label}</label>
 
-            {/* Selected Chips */}
+            {/* Seleccionados */}
             <div className="flex flex-wrap gap-2 mb-2">
                 {value.map(v => (
                     <span key={v.slug} className="bg-indigo-100 text-indigo-700 text-xs px-2 py-1 rounded-full flex items-center gap-1">
@@ -76,7 +73,7 @@ export default function AsyncSelect({ label, loadOptions, value, onChange, place
                 ))}
             </div>
 
-            {/* Input Trigger */}
+            {/* Trigger */}
             <input
                 type="text"
                 value={query}

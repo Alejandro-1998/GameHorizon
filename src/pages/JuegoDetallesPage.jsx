@@ -10,7 +10,7 @@ export default function JuegoDetallesPage() {
     const [loading, setLoading] = useState(true);
     const [selectedImage, setSelectedImage] = useState(null);
 
-    // Favorites Logic
+    // Favoritos
     const { isFavorite, toggleFavorite } = useFavorites();
     const favorite = game ? isFavorite(game.id) : false;
 
@@ -18,7 +18,7 @@ export default function JuegoDetallesPage() {
         const fetchDetails = async () => {
             setLoading(true);
             try {
-                // Fetch details and screenshots in parallel
+
                 const [detailsData, screenshotsData] = await Promise.all([
                     getGameDetails(id),
                     getGameScreenshots(id)

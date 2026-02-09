@@ -16,7 +16,8 @@ export default function CatalogoPage() {
     const [publishersList, setPublishersList] = useState([]);
 
     const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(1);
+
+    const page = parseInt(searchParams.get("page")) || 1;
     const [totalGames, setTotalGames] = useState(0);
 
     const { favorites } = useFavorites();
@@ -45,10 +46,6 @@ export default function CatalogoPage() {
             setPlatformsList(pList);
         };
         loadFiltersData();
-
-        // Initialize AsyncSelect values from URL if present (This is a bit tricky without fetching names, 
-        // for now we might start empty or need a way to fetch names by slug. 
-        // For simplicity in this iteration, we will leave them empty on refresh for now or just handle the filter logic).
     }, []);
 
     useEffect(() => {
@@ -58,9 +55,10 @@ export default function CatalogoPage() {
         if (filters.genre) params.genre = filters.genre;
         if (filters.platform) params.platform = filters.platform;
 
-        // Convert array objects to comma separated slugs for URL/API
         if (filters.tags.length > 0) params.tags = filters.tags.map(t => t.slug).join(',');
         if (filters.publishers.length > 0) params.publishers = filters.publishers.map(p => p.slug).join(',');
+
+        if (page > 1) params.page = page;
 
         setSearchParams(params);
     }, [page, filters]);
@@ -109,7 +107,11 @@ export default function CatalogoPage() {
 
     const handleFilterChange = (key, value) => {
         setFilters(prev => ({ ...prev, [key]: value }));
-        setPage(1);
+        setSearchParams(prev => {
+            const newParams = new URLSearchParams(prev);
+            newParams.set("page", 1);
+            return newParams;
+        });
     };
 
     const handleSearchSubmit = (e) => {
@@ -120,14 +122,22 @@ export default function CatalogoPage() {
 
     const handlePrevious = () => {
         if (page > 1) {
-            setPage(p => p - 1);
+            setSearchParams(prev => {
+                const newParams = new URLSearchParams(prev);
+                newParams.set("page", page - 1);
+                return newParams;
+            });
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
 
     const handleNext = () => {
         if (page < totalPages) {
-            setPage(p => p + 1);
+            setSearchParams(prev => {
+                const newParams = new URLSearchParams(prev);
+                newParams.set("page", page + 1);
+                return newParams;
+            });
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
@@ -199,7 +209,7 @@ export default function CatalogoPage() {
                                 </select>
                             </div>
 
-                            {/* Genero */}
+                            {/* Género */}
                             <div>
                                 <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Género</label>
                                 <select

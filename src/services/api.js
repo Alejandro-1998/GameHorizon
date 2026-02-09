@@ -137,7 +137,6 @@ export const getGenres = async () => {
 
 export const getPlatforms = async () => {
     try {
-        // Obtenemos plataformas padre para simplificar (PC, PlayStation, Xbox, etc)
         const response = await fetch(`${BASE_URL}/platforms/lists/parents?key=${API_KEY}`);
         const data = await response.json();
         return data.results;
@@ -162,7 +161,7 @@ export const getPublishers = async (search = '', page = 1, pageSize = 24) => {
         const query = search ? `&search=${search}` : '';
         const response = await fetch(`${BASE_URL}/publishers?key=${API_KEY}&page=${page}&page_size=${pageSize}${query}`);
         const data = await response.json();
-        return data; // Return full data for pagination { count, results, ... }
+        return data;
     } catch (error) {
         return { results: [], count: 0 };
     }

@@ -25,7 +25,7 @@ export default function GameCard({ game }) {
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                {/* Favorites Button */}
+                {/* Botón Favoritos */}
                 <button
                     onClick={handleFavoriteClick}
                     className="absolute top-3 right-3 z-20 p-2 rounded-full backdrop-blur-md bg-black/30 hover:bg-white/20 transition-all group-hover:opacity-100 opacity-100 sm:opacity-0"

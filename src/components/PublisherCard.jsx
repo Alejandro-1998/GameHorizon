@@ -6,7 +6,7 @@ export default function PublisherCard({ publisher }) {
             to={`/publishers/${publisher.id}`}
             className="group block relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white aspect-4/3"
         >
-            {/* Background Image */}
+            {/* Imagen */}
             <div className="absolute inset-0">
                 {publisher.image_background ? (
                     <img
@@ -20,7 +20,7 @@ export default function PublisherCard({ publisher }) {
                 <div className="absolute inset-0 bg-linear-to-t from-slate-900/90 via-slate-900/20 to-transparent"></div>
             </div>
 
-            {/* Content */}
+            {/* Contenido */}
             <div className="absolute bottom-0 left-0 w-full p-5">
                 <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-lg truncate">
                     {publisher.name}

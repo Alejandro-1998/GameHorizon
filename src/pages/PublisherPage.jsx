@@ -11,21 +11,20 @@ export default function PublisherPage() {
     const [loadingPublisher, setLoadingPublisher] = useState(true);
     const [loadingGames, setLoadingGames] = useState(true);
 
-    // Pagination state
+    // Paginación
     const [page, setPage] = useState(1);
     const [totalGames, setTotalGames] = useState(0);
     const PAGE_SIZE = 24;
 
     const { isFavorite, toggleFavorite } = useFavorites();
 
-    // Fetch Publisher Details (only once when ID changes)
+    // Detalles Publisher
     useEffect(() => {
         const fetchPublisher = async () => {
             setLoadingPublisher(true);
             try {
                 const data = await getPublisherDetails(id);
                 setPublisher(data);
-                // Also reset page when publisher changes
                 setPage(1);
             } catch (error) {
                 console.error("Error fetching publisher:", error);
@@ -38,7 +37,7 @@ export default function PublisherPage() {
         window.scrollTo(0, 0);
     }, [id]);
 
-    // Fetch Games (when ID or Page changes)
+    // Detalles Juego
     useEffect(() => {
         const fetchGames = async () => {
             setLoadingGames(true);
@@ -56,13 +55,12 @@ export default function PublisherPage() {
         if (id) fetchGames();
     }, [id, page]);
 
-    // Pagination handlers
     const totalPages = Math.ceil(totalGames / PAGE_SIZE);
 
     const handlePrevious = () => {
         if (page > 1) {
             setPage(p => p - 1);
-            window.scrollTo({ top: 400, behavior: 'smooth' }); // Scroll to games section
+            window.scrollTo({ top: 400, behavior: 'smooth' });
         }
     };
 
@@ -115,10 +113,10 @@ export default function PublisherPage() {
                 </div>
             </div>
 
-            {/* Content Container */}
+            {/* Contenido Container */}
             <div className="container mx-auto px-4 -mt-10 relative z-10 space-y-8">
 
-                {/* About Section */}
+                {/* Información */}
                 <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100">
                     <h2 className="text-2xl font-bold text-slate-800 mb-4 flex items-center gap-2">
                         <span className="text-3xl">🏢</span> Acerca de {publisher.name}
@@ -129,7 +127,7 @@ export default function PublisherPage() {
                     />
                 </div>
 
-                {/* Games List */}
+                {/* Lista de Juegos */}
                 <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100">
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-3xl font-bold text-slate-800 flex items-center gap-3">
@@ -154,7 +152,7 @@ export default function PublisherPage() {
                                 ))}
                             </div>
 
-                            {/* Pagination */}
+                            {/* Paginación */}
                             {totalPages > 1 && (
                                 <div className="flex justify-center items-center gap-6 mt-12 pt-8 border-t border-slate-100">
                                     <button
