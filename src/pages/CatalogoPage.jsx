@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { getGames, getGenres, getPlatforms } from "../services/api";
+import { getGames, getGenres, getPlatforms, getTags, getPublishers } from "../services/api";
+
 import GameCard from "../components/GameCard";
+import AsyncSelect from "../components/AsyncSelect";
 import { useFavorites } from "../context/FavoritesContext";
 
 export default function CatalogoPage() {
@@ -10,6 +12,8 @@ export default function CatalogoPage() {
     const [games, setGames] = useState([]);
     const [genresList, setGenresList] = useState([]);
     const [platformsList, setPlatformsList] = useState([]);
+    const [tagsList, setTagsList] = useState([]);
+    const [publishersList, setPublishersList] = useState([]);
 
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
@@ -21,8 +25,9 @@ export default function CatalogoPage() {
         search: searchParams.get("search") || "",
         genre: searchParams.get("genre") || "",
         platform: searchParams.get("platform") || "",
-        tags: searchParams.get("tags") || "",
-        publishers: searchParams.get("publishers") || "",
+
+        tags: searchParams.get("tags") ? searchParams.get("tags").split(',').map(slug => ({ slug, name: slug })) : [],
+        publishers: searchParams.get("publishers") ? searchParams.get("publishers").split(',').map(slug => ({ slug, name: slug })) : [],
         year: "",
         ordering: "-added",
         favoritesOnly: false
@@ -32,11 +37,18 @@ export default function CatalogoPage() {
 
     useEffect(() => {
         const loadFiltersData = async () => {
-            const [gList, pList] = await Promise.all([getGenres(), getPlatforms()]);
+            const [gList, pList] = await Promise.all([
+                getGenres(),
+                getPlatforms()
+            ]);
             setGenresList(gList);
             setPlatformsList(pList);
         };
         loadFiltersData();
+
+        // Initialize AsyncSelect values from URL if present (This is a bit tricky without fetching names, 
+        // for now we might start empty or need a way to fetch names by slug. 
+        // For simplicity in this iteration, we will leave them empty on refresh for now or just handle the filter logic).
     }, []);
 
     useEffect(() => {
@@ -45,10 +57,14 @@ export default function CatalogoPage() {
         if (filters.search) params.search = filters.search;
         if (filters.genre) params.genre = filters.genre;
         if (filters.platform) params.platform = filters.platform;
-        if (filters.tags) params.tags = filters.tags;
-        if (filters.publishers) params.publishers = filters.publishers;
+
+        // Convert array objects to comma separated slugs for URL/API
+        if (filters.tags.length > 0) params.tags = filters.tags.map(t => t.slug).join(',');
+        if (filters.publishers.length > 0) params.publishers = filters.publishers.map(p => p.slug).join(',');
+
         setSearchParams(params);
     }, [page, filters]);
+
 
     const loadGames = async () => {
         setLoading(true);
@@ -75,8 +91,8 @@ export default function CatalogoPage() {
                 search: filters.search,
                 genre: filters.genre,
                 platform: filters.platform,
-                tags: filters.tags,
-                publishers: filters.publishers,
+                tags: filters.tags.map(t => t.slug).join(','),
+                publishers: filters.publishers.map(p => p.slug).join(','),
                 dates: datesParam,
                 ordering: filters.ordering,
                 ids: idsParam
@@ -128,7 +144,7 @@ export default function CatalogoPage() {
                         <div className="flex items-center justify-between mb-6">
                             <h3 className="text-xl font-bold text-slate-800">Filtros</h3>
                             <button
-                                onClick={() => setFilters({ search: "", genre: "", platform: "", tags: "", publishers: "", year: "", ordering: "-added", favoritesOnly: false })}
+                                onClick={() => setFilters({ search: "", genre: "", platform: "", tags: [], publishers: [], year: "", ordering: "-added", favoritesOnly: false })}
                                 className="text-xs text-indigo-600 font-bold hover:underline"
                             >
                                 Limpiar
@@ -211,6 +227,28 @@ export default function CatalogoPage() {
                                         <option key={p.id} value={p.id}>{p.name}</option>
                                     ))}
                                 </select>
+                            </div>
+
+                            {/* Tags */}
+                            <div>
+                                <AsyncSelect
+                                    label="Tags"
+                                    placeholder="Buscar tags..."
+                                    loadOptions={getTags}
+                                    value={filters.tags}
+                                    onChange={(val) => handleFilterChange("tags", val)}
+                                />
+                            </div>
+
+                            {/* Publishers */}
+                            <div>
+                                <AsyncSelect
+                                    label="Publishers"
+                                    placeholder="Buscar publishers..."
+                                    loadOptions={getPublishers}
+                                    value={filters.publishers}
+                                    onChange={(val) => handleFilterChange("publishers", val)}
+                                />
                             </div>
 
                             {/* Año */}

@@ -146,6 +146,28 @@ export const getPlatforms = async () => {
     }
 };
 
+export const getTags = async (search = '') => {
+    try {
+        const query = search ? `&search=${search}` : '';
+        const response = await fetch(`${BASE_URL}/tags?key=${API_KEY}&page_size=20${query}`);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        return [];
+    }
+};
+
+export const getPublishers = async (search = '') => {
+    try {
+        const query = search ? `&search=${search}` : '';
+        const response = await fetch(`${BASE_URL}/publishers?key=${API_KEY}&page_size=20${query}`);
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        return [];
+    }
+};
+
 /**
  * Obtiene las capturas de pantalla de un juego.
  * @param {string|number} id
