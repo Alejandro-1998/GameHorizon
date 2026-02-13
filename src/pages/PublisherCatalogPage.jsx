@@ -1,50 +1,30 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, Link } from "react-router";
-import { getPublishers } from "../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPublishersThunk } from "../redux/slices/publishersSlice";
 import PublisherCard from "../components/PublisherCard";
 
 export default function PublisherCatalogPage() {
     const [searchParams, setSearchParams] = useSearchParams();
+    const dispatch = useDispatch();
 
-    const [publishers, setPublishers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { items: publishers, count: totalPublishers, loading } = useSelector((state) => state.publishers);
 
     const page = parseInt(searchParams.get("page")) || 1;
-    const [totalPublishers, setTotalPublishers] = useState(0);
-
     const [search, setSearch] = useState(searchParams.get("search") || "");
     const PAGE_SIZE = 24;
 
     // Publishers
     useEffect(() => {
-        loadPublishers();
+        dispatch(fetchPublishersThunk(search, page, PAGE_SIZE));
 
         const params = {};
         if (search) params.search = search;
         if (page > 1) params.page = page;
         setSearchParams(params);
-    }, [page, search]);
+    }, [dispatch, page, search]);
 
-    const loadPublishers = async () => {
-        setLoading(true);
-        try {
-
-            const data = await getPublishers(search, page, PAGE_SIZE);
-
-            if (data.results) {
-                setPublishers(data.results);
-                setTotalPublishers(data.count || 0);
-            } else {
-
-                setPublishers(data || []);
-                setTotalPublishers(0);
-            }
-        } catch (error) {
-            console.error("Error fetching publishers:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    // Removed loadPublishers and local state setters related to it
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);

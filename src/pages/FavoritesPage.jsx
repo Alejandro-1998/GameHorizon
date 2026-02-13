@@ -1,34 +1,20 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router";
-import { useFavorites } from "../context/FavoritesContext";
-import { getGames } from "../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCatalogGamesThunk } from "../redux/slices/gamesSlice";
 import GameCard from "../components/GameCard";
 
 export default function FavoritesPage() {
-    const { favorites } = useFavorites();
-    const [games, setGames] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const favorites = useSelector((state) => state.favorites.items);
+    const { items: games, loading } = useSelector((state) => state.games.catalog);
 
     useEffect(() => {
-        const loadFavorites = async () => {
-            setLoading(true);
-            try {
-                if (favorites.length === 0) {
-                    setGames([]);
-                } else {
-                    const idsString = favorites.join(',');
-                    const data = await getGames({ ids: idsString, pageSize: 40 });
-                    setGames(data.results || []);
-                }
-            } catch (error) {
-                console.error("Error loading favorites:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadFavorites();
-    }, [favorites]);
+        if (favorites.length > 0) {
+            const idsString = favorites.join(',');
+            dispatch(fetchCatalogGamesThunk({ ids: idsString, pageSize: 40 }));
+        }
+    }, [dispatch, favorites]);
 
     return (
         <div className="container mx-auto px-4 min-h-screen">

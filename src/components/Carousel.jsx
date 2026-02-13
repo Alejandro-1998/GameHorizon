@@ -1,26 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { getTrendingGames } from "../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTrendingGamesThunk } from "../redux/slices/gamesSlice";
 
 export default function Carousel() {
-    const [games, setGames] = useState([]);
+    const dispatch = useDispatch();
+    const { items: games, loading } = useSelector((state) => state.games.trending);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                const results = await getTrendingGames();
-                setGames(results);
-            } catch (error) {
-                console.error("Error fetching carousel games:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchGames();
-    }, []);
+        dispatch(fetchTrendingGamesThunk());
+    }, [dispatch]);
 
     // Efecto Scroll Automático
     useEffect(() => {

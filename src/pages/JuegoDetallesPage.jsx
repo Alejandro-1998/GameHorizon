@@ -1,42 +1,29 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
-import { getGameDetails, getGameScreenshots } from "../services/api";
-import { useFavorites } from "../context/FavoritesContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGameDetailsThunk, fetchScreenshotsThunk } from "../redux/slices/detailsSlice";
+import { toggleFavorite, selectIsFavorite } from "../redux/slices/favoritesSlice";
 
 export default function JuegoDetallesPage() {
     const { id } = useParams();
-    const [game, setGame] = useState(null);
-    const [screenshots, setScreenshots] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+
+    const { data: game, loading: loadingDetails } = useSelector((state) => state.details.game);
+    const { items: screenshots, loading: loadingScreenshots } = useSelector((state) => state.details.screenshots);
+    const loading = loadingDetails || loadingScreenshots;
+
     const [selectedImage, setSelectedImage] = useState(null);
 
     // Favoritos
-    const { isFavorite, toggleFavorite } = useFavorites();
-    const favorite = game ? isFavorite(game.id) : false;
+    const favorite = useSelector((state) => (game ? selectIsFavorite(state, game.id) : false));
 
     useEffect(() => {
-        const fetchDetails = async () => {
-            setLoading(true);
-            try {
-
-                const [detailsData, screenshotsData] = await Promise.all([
-                    getGameDetails(id),
-                    getGameScreenshots(id)
-                ]);
-                setGame(detailsData);
-                setScreenshots(screenshotsData || []);
-            } catch (error) {
-                console.error("Error fetching game details:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         if (id) {
-            fetchDetails();
+            dispatch(fetchGameDetailsThunk(id));
+            dispatch(fetchScreenshotsThunk(id));
         }
         window.scrollTo(0, 0);
-    }, [id]);
+    }, [dispatch, id]);
 
     if (loading) {
         return (
@@ -94,7 +81,7 @@ export default function JuegoDetallesPage() {
                                 {game.name}
                             </h1>
                             <button
-                                onClick={() => toggleFavorite(game.id)}
+                                onClick={() => dispatch(toggleFavorite(game.id))}
                                 className="bg-white/10 hover:bg-white/20 backdrop-blur-md p-3 rounded-full transition-all text-white border border-white/10"
                                 title={favorite ? "Quitar de favoritos" : "Añadir a favoritos"}
                             >

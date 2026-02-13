@@ -1,14 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
-import { useFavorites } from "../context/FavoritesContext";
+import { toggleFavorite, selectIsFavorite } from "../redux/slices/favoritesSlice";
 
 export default function GameCard({ game }) {
-    const { isFavorite, toggleFavorite } = useFavorites();
-    const favorite = isFavorite(game.id);
+    const dispatch = useDispatch();
+    const favorite = useSelector((state) => selectIsFavorite(state, game.id));
 
     const handleFavoriteClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
-        toggleFavorite(game.id);
+        dispatch(toggleFavorite(game.id));
     };
 
     return (

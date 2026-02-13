@@ -1,29 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import Carousel from "../components/Carousel";
 
-import { getPopularGames } from "../services/api";
+import { fetchPopularGamesThunk } from "../redux/slices/gamesSlice";
 
 import GameCard from "../components/GameCard";
 
 export default function HomePage() {
-  const [popularGames, setPopularGames] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { items: popularGames, loading } = useSelector((state) => state.games.popular);
 
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const data = await getPopularGames(1, 12);
-        setPopularGames(data.results);
-      } catch (error) {
-        console.error("Error fetching games:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchGames();
-  }, []);
+    dispatch(fetchPopularGamesThunk(1, 12));
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen space-y-16 pb-20">

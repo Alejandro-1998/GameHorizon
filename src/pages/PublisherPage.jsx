@@ -1,59 +1,36 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router";
-import { getPublisherDetails, getGames } from "../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPublisherDetailsThunk } from "../redux/slices/detailsSlice";
+import { fetchCatalogGamesThunk } from "../redux/slices/gamesSlice";
 import GameCard from "../components/GameCard";
-import { useFavorites } from "../context/FavoritesContext";
 
 export default function PublisherPage() {
     const { id } = useParams();
-    const [publisher, setPublisher] = useState(null);
-    const [games, setGames] = useState([]);
-    const [loadingPublisher, setLoadingPublisher] = useState(true);
-    const [loadingGames, setLoadingGames] = useState(true);
+    const dispatch = useDispatch();
+
+    const { data: publisher, loading: loadingPublisher } = useSelector((state) => state.details.publisher);
+    const { items: games, count: totalGames, loading: loadingGames } = useSelector((state) => state.games.catalog);
 
     // Paginación
     const [page, setPage] = useState(1);
-    const [totalGames, setTotalGames] = useState(0);
     const PAGE_SIZE = 24;
-
-    const { isFavorite, toggleFavorite } = useFavorites();
 
     // Detalles Publisher
     useEffect(() => {
-        const fetchPublisher = async () => {
-            setLoadingPublisher(true);
-            try {
-                const data = await getPublisherDetails(id);
-                setPublisher(data);
-                setPage(1);
-            } catch (error) {
-                console.error("Error fetching publisher:", error);
-            } finally {
-                setLoadingPublisher(false);
-            }
-        };
-
-        if (id) fetchPublisher();
+        if (id) {
+            dispatch(fetchPublisherDetailsThunk(id));
+            setPage(1);
+        }
         window.scrollTo(0, 0);
-    }, [id]);
+    }, [dispatch, id]);
 
     // Detalles Juego
     useEffect(() => {
-        const fetchGames = async () => {
-            setLoadingGames(true);
-            try {
-                const data = await getGames({ publishers: id, page, pageSize: PAGE_SIZE });
-                setGames(data.results || []);
-                setTotalGames(data.count || 0);
-            } catch (error) {
-                console.error("Error fetching games:", error);
-            } finally {
-                setLoadingGames(false);
-            }
-        };
-
-        if (id) fetchGames();
-    }, [id, page]);
+        if (id) {
+            dispatch(fetchCatalogGamesThunk({ publishers: id, page, pageSize: PAGE_SIZE }));
+        }
+    }, [dispatch, id, page]);
 
     const totalPages = Math.ceil(totalGames / PAGE_SIZE);
 
