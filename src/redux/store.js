@@ -3,6 +3,7 @@ import favoritesReducer from './slices/favoritesSlice';
 import gamesReducer from './slices/gamesSlice';
 import detailsReducer from './slices/detailsSlice';
 import publishersReducer from './slices/publishersSlice';
+import eventsReducer from './slices/eventsSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
         games: gamesReducer,
         details: detailsReducer,
         publishers: publishersReducer,
+        events: eventsReducer,
     },
 });

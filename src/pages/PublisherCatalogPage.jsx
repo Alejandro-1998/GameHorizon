@@ -24,8 +24,6 @@ export default function PublisherCatalogPage() {
         setSearchParams(params);
     }, [dispatch, page, search]);
 
-    // Removed loadPublishers and local state setters related to it
-
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
         setSearchParams(prev => {

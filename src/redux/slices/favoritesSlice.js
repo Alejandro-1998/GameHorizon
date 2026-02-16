@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Cargar favoritos al inicio desde localStorage
 const loadFavorites = () => {
   try {
     const saved = localStorage.getItem('favorites');
@@ -22,16 +21,13 @@ const favoritesSlice = createSlice({
   initialState,
   reducers: {
     addFavorite: (state, action) => {
-      // action.payload es el ID del juego
       if (!state.items.includes(action.payload)) {
         state.items.push(action.payload);
-        // Guardamos en localStorage
         localStorage.setItem('favorites', JSON.stringify(state.items));
       }
     },
     removeFavorite: (state, action) => {
       state.items = state.items.filter(id => id !== action.payload);
-      // Guardamos en localStorage
       localStorage.setItem('favorites', JSON.stringify(state.items));
     },
     toggleFavorite: (state, action) => {
@@ -41,7 +37,6 @@ const favoritesSlice = createSlice({
       } else {
         state.items.push(id);
       }
-      // Guardamos en localStorage
       localStorage.setItem('favorites', JSON.stringify(state.items));
     }
   },
@@ -49,7 +44,6 @@ const favoritesSlice = createSlice({
 
 export const { addFavorite, removeFavorite, toggleFavorite } = favoritesSlice.actions;
 
-// Selector para saber si es favorito
 export const selectIsFavorite = (state, gameId) => state.favorites.items.includes(gameId);
 
 export default favoritesSlice.reducer;

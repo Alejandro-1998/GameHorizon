@@ -6,6 +6,8 @@ import JuegoDetallesPage from './pages/JuegoDetallesPage';
 
 import PublisherPage from './pages/PublisherPage';
 import PublisherCatalogPage from './pages/PublisherCatalogPage';
+import EventsPage from './pages/EventsPage';
+import MisEventosPage from './pages/MisEventosPage';
 
 
 import FavoritesPage from './pages/FavoritesPage';
@@ -21,6 +23,10 @@ function App() {
           <Route path="catalogo" element={<CatalogoPage />} />
           {/* Ruta Favoritos */}
           <Route path="favoritos" element={<FavoritesPage />} />
+          {/* Ruta Eventos */}
+          <Route path="eventos" element={<EventsPage />} />
+          {/* Ruta Mis Eventos */}
+          <Route path="mis-eventos" element={<MisEventosPage />} />
           {/* Ruta Detalles Juego */}
           <Route path="game/:id" element={<JuegoDetallesPage />} />
           {/* Ruta Detalles Publisher */}

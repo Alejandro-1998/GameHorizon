@@ -32,8 +32,6 @@ export const {
     fetchPublishersStart, fetchPublishersSuccess, fetchPublishersFailure
 } = publishersSlice.actions;
 
-// Thunk Clásico
-
 export const fetchPublishersThunk = (search = '', page = 1, pageSize = 24) => async (dispatch) => {
     try {
         dispatch(fetchPublishersStart());

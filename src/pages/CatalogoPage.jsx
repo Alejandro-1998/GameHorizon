@@ -17,34 +17,6 @@ export default function CatalogoPage() {
     const [genresList, setGenresList] = useState([]);
     const [platformsList, setPlatformsList] = useState([]);
 
-    // We keep totalGames local or we could add it to the slice if needed. 
-    // The API returns { count, results }, our slice only stores results in items.
-    // For simplicity and since the user asked for simple things, let's keep totalGames local 
-    // BUT wait, fetchCatalogGamesThunk currently only dispatches results. 
-    // I should probably update the slice to store count or just hack it here? 
-    // The thunk dispatches results. The component needs count. 
-    // I will stick to what the user asked: "simple".
-    // I'll check if I need to update the slice to include 'count'.
-    // Looking at gamesSlice.js, it ONLY stores items.
-    // This is a problem for pagination.
-    // I should update gamesSlice.js to store count as well.
-    // BUT I can't update two files in one step properly here without confusing logic.
-    // Let's first update gamesSlice to support count, THEN update this page.
-
-    // WAIT, I should cancel this tool call and update the slice first.
-    // However, I can't cancel. I will proceed with a partial update or a comment.
-    // Actually, I can use a separate useEffect to fetch count? No that's bad.
-    // I will update the slice in the next step. 
-    // For now I will assume the slice *will* provide it, or I'll handle it later.
-    // Actually, I will pause this and update the slice first.
-    // I'll make this tool call return the ORIGINAL content to "cancel" it effectively, 
-    // or just minimal changes. 
-    // No, I will just fail this step intentionally or do nothing? 
-    // I'll just write the basic structure and fix the slice immediately after.
-
-    // Let's assume I'll fix the slice.
-
-
     const page = parseInt(searchParams.get("page")) || 1;
 
     const [filters, setFilters] = useState({
@@ -95,9 +67,7 @@ export default function CatalogoPage() {
         let idsParam = "";
         if (filters.favoritesOnly) {
             if (favorites.length === 0) {
-                // Handle empty favorites locally or let the API handle it (it usually returns empty if ids is empty string? or all games?)
-                // If strict empty check:
-                // We can just simulate empty result
+
             }
             idsParam = favorites.join(',');
         }

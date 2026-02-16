@@ -24,7 +24,6 @@ const gamesSlice = createSlice({
     name: 'games',
     initialState,
     reducers: {
-        // Popular Games
         fetchPopularStart: (state) => {
             state.popular.loading = true;
             state.popular.error = null;
@@ -38,7 +37,6 @@ const gamesSlice = createSlice({
             state.popular.error = action.payload;
         },
 
-        // Trending Games
         fetchTrendingStart: (state) => {
             state.trending.loading = true;
             state.trending.error = null;
@@ -52,7 +50,6 @@ const gamesSlice = createSlice({
             state.trending.error = action.payload;
         },
 
-        // Catalog Games
         fetchCatalogStart: (state) => {
             state.catalog.loading = true;
             state.catalog.error = null;
@@ -74,8 +71,6 @@ export const {
     fetchTrendingStart, fetchTrendingSuccess, fetchTrendingFailure,
     fetchCatalogStart, fetchCatalogSuccess, fetchCatalogFailure
 } = gamesSlice.actions;
-
-// Thunks "Clásicos" (Funciones que retornan funciones)
 
 export const fetchPopularGamesThunk = (page = 1, pageSize = 12) => async (dispatch) => {
     try {

@@ -23,7 +23,6 @@ const detailsSlice = createSlice({
     name: 'details',
     initialState,
     reducers: {
-        // Game Details
         fetchGameDetailsStart: (state) => {
             state.game.loading = true;
             state.game.error = null;
@@ -37,7 +36,6 @@ const detailsSlice = createSlice({
             state.game.error = action.payload;
         },
 
-        // Publisher Details
         fetchPublisherDetailsStart: (state) => {
             state.publisher.loading = true;
             state.publisher.error = null;
@@ -51,7 +49,6 @@ const detailsSlice = createSlice({
             state.publisher.error = action.payload;
         },
 
-        // Screenshots
         fetchScreenshotsStart: (state) => {
             state.screenshots.loading = true;
             state.screenshots.error = null;
@@ -72,8 +69,6 @@ export const {
     fetchPublisherDetailsStart, fetchPublisherDetailsSuccess, fetchPublisherDetailsFailure,
     fetchScreenshotsStart, fetchScreenshotsSuccess, fetchScreenshotsFailure
 } = detailsSlice.actions;
-
-// Thunks Clásicos
 
 export const fetchGameDetailsThunk = (id) => async (dispatch) => {
     try {
